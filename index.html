@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>Cartão AR com Senha — Mensagem Projetada</title>
+  <title>Cartão AR com Senha — Imagem Projetada</title>
   <!-- A-Frame + AR.js (CDNs) -->
   <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
@@ -22,24 +22,18 @@
 <body>
   <div id="tip">Aponte a câmera para o marcador no cartão</div>
 
-  <!-- Cena AR: mensagem em texto flutuando (sem fundo) -->
+  <!-- Cena AR: IMAGEM flutuando (sem plano de fundo) -->
   <a-scene vr-mode-ui="enabled:false" embedded renderer="antialias:true; alpha:true" arjs="sourceType:webcam; debugUIEnabled:false; trackingMethod: best;">
-    <!-- marcador padrão 'hiro' -->
     <a-marker preset="hiro" id="marker">
-      <!-- Texto flutuante: inicialmente invisível. 
-           Rotacionado -90° no eixo X para ficar paralelo ao cartão (deitado), 
-           posicionado levemente acima do marcador para evitar clipping. -->
-      <a-entity id="msgText"
-                visible="false"
-                position="0 0 0.02"
-                rotation="-90 0 0"
-                text="value: Te amo mais do que a dor que nos trouxe até aqui — e prometo nunca deixar o nosso amor ser culpa de nada, senão da vida que escolhemos juntos.; 
-                      color: #ffffff; 
-                      align: center; 
-                      wrapCount: 26; 
-                      baseline: center; 
-                      shader: msdf;">
-      </a-entity>
+      <!-- Troque o src abaixo para o caminho da sua imagem -->
+      <a-image id="imgProj"
+               visible="false"
+               src="./imagem.png"
+               position="0 0 0.02"
+               rotation="-90 0 0"
+               width="1.5"
+               height="1.0">
+      </a-image>
     </a-marker>
     <a-entity camera></a-entity>
   </a-scene>
@@ -47,31 +41,30 @@
   <!-- Portão de senha -->
   <div id="gate">
     <div class="panel">
-      <h2>Desbloquear mensagem</h2>
-      <p>Digite a senha para revelar a mensagem projetada sobre o cartão.</p>
+      <h2>Desbloquear</h2>
+      <p>Digite a senha (uma data especial) para revelar a imagem projetada sobre o cartão.</p>
       <div class="row">
-        <input id="pw" type="password" placeholder="Senha (dd.mm.aaaa)"/>
+        <input id="pw" type="password" placeholder="Senha (uma data especial)"/>
         <button id="ok">Abrir</button>
       </div>
-      <div class="note">Senha sugerida no cartão: <b>29.09.2024</b></div>
       <div class="note">Dica: permita o uso da câmera quando o navegador pedir.</div>
     </div>
   </div>
 
   <script>
     // ===== CONFIG =====
-    const PASSWORD = "29.09.2024"; // senha definida pelo usuário
+    const PASSWORD = "29.09.2024"; // sua data especial (não é exibida na tela)
     // ==================
 
     const gate = document.getElementById('gate');
     const btn  = document.getElementById('ok');
     const pw   = document.getElementById('pw');
     const tip  = document.getElementById('tip');
-    const msg  = document.getElementById('msgText');
+    const img  = document.getElementById('imgProj');
 
     function unlock(){
       if (pw.value.trim() === PASSWORD){
-        msg.setAttribute('visible', true);
+        img.setAttribute('visible', true);
         gate.style.display = 'none';
         tip.style.display = 'inline-block';
       } else {
